@@ -48,7 +48,7 @@ export const useProjects = () => {
 			.get()
 			.then((snapshot) => {
 				const allProjects = snapshot.docs.map((project) => ({
-					...project.data,
+					...project.data(),
 					docId: project.id,
 				}));
 
