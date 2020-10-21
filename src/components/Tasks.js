@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Checkbox } from './Checkbox';
-import { useTasks } from '../hooks';
 import { collatedTasks } from '../constants';
 
 import { getTitle, getCollatedTitle, collatedTasksExist } from '../helpers';
@@ -25,6 +24,8 @@ export const Tasks = () => {
 	useEffect(() => {
 		document.title = `${projectName}: Todoist`;
 	}, []);
+
+	console.log(tasks);
 	return (
 		<div className='tasks' data-testid='tasks'>
 			<h2 data-testid='project-name'>{projectName}</h2>
