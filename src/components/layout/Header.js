@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaPizzaSlice } from 'react-icons/fa';
-export const Header = () => {
+import { AddTask } from '../AddTasks';
+export const Header = ({ darkMode, setDarkMode }) => {
+	const [shouldShowMain, setShouldShowMain] = useState(false);
+	const [showQuickAddTask, setShowQuickAddTask] = useState(false);
 	return (
 		<header className='header' data-testid='header'>
 			<nav>
@@ -9,15 +12,16 @@ export const Header = () => {
 				</div>
 				<div className='settings'>
 					<ul>
-						<li data-testid='quick-add-task-action' className='settings__add'>
+						<li data-testid='quick-add-task-action' className='settings__add' onClick={() => {setShowQuickAddTask(true);setShouldShowMain(true)}}>
 							+
 						</li>
-						<li data-testid='dark-mode-action' className='settings__darkmode'>
+						<li data-testid='dark-mode-action' className='settings__darkmode' onClick={() => setDarkMode(!darkMode)}>
 							<FaPizzaSlice />
 						</li>
 					</ul>
 				</div>
 			</nav>
+			<AddTask showAddTaskMain={false} showShouldMain={shouldShowMain} showQuickAddTask={showQuickAddTask} setShowQuickAddTask={setShowQuickAddTask} />
 		</header>
 	);
 };
