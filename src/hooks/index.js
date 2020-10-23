@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { firebase } from '../firebase';
+import { firebase, auth, provider } from '../firebase';
 import { collatedTasksExist } from '../helpers';
 import moment from 'moment';
 export const useTasks = (selectedProject) => {
@@ -55,4 +55,21 @@ export const useProjects = () => {
 			});
 	}, [projects]);
 	return { projects, setProjects };
+};
+
+export const useUser = (loggedInUser) => {
+	loggedInUser = loggedInUser ? loggedInUser : JSON.parse(localStorage.getItem('todoistUser'))
+	const [user, setUser] = useState({});
+	useEffect(() => {
+		setUser(loggedInUser);
+	}, []);
+	return { user, setUser };
+};
+
+export const useLogout = () => {
+	const [user, setUser] = useState({});
+	useEffect(() => {
+		setUser(localStorage.removeItem('todoistUser'));
+	}, []);
+	return { user, setUser };
 };

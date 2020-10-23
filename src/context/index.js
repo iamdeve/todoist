@@ -2,4 +2,6 @@ import { ProjectsContext, ProjectsProvider, useProjectsValue } from './projects_
 
 import { SelectedProjectContext, SelectedProjectProvider, useSelectedProjectValue } from './selected_project_context';
 
-export { SelectedProjectContext, SelectedProjectProvider, useSelectedProjectValue, ProjectsContext, ProjectsProvider, useProjectsValue };
+import { UserContext, UserProvider, useUserValue } from './user_context';
+
+export { SelectedProjectContext, SelectedProjectProvider, useSelectedProjectValue, ProjectsContext, ProjectsProvider, useProjectsValue, UserContext, UserProvider, useUserValue };
