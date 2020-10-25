@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
-import { firebase, auth, provider } from '../firebase';
+import { firebase } from '../firebase';
 import { collatedTasksExist } from '../helpers';
+import { useUserValue } from '../context';
 import moment from 'moment';
 export const useTasks = (selectedProject) => {
 	const [tasks, setTasks] = useState([]);
 	const [archivedTasks, setArchivedTasks] = useState([]);
+	const { user } = useUserValue();
+	// console.log(user);
 
 	useEffect(() => {
-		let unsubscribe = firebase.firestore().collection('tasks').where('userId', '==', '2vDTjqWsPQ2yj3sza5ju');
+		let unsubscribe = firebase.firestore().collection('tasks').where('userId', '==', user.uid);
 
 		unsubscribe =
 			selectedProject && !collatedTasksExist(selectedProject)
@@ -35,41 +38,41 @@ export const useTasks = (selectedProject) => {
 
 export const useProjects = () => {
 	const [projects, setProjects] = useState([]);
+	const { user } = useUserValue();
+	// console.log(user);
 
 	useEffect(() => {
-		firebase
-			.firestore()
-			.collection('projects')
-			.where('userId', '==', '2vDTjqWsPQ2yj3sza5ju')
-			.orderBy('projectId')
-			.get()
-			.then((snapshot) => {
-				const allProjects = snapshot.docs.map((project) => ({
-					...project.data(),
-					docId: project.id,
-				}));
+		if (user) {
+			firebase
+				.firestore()
+				.collection('projects')
+				.where('userId', '==', user.uid)
+				.orderBy('projectId')
+				.get()
+				.then((snapshot) => {
+					const allProjects = snapshot.docs.map((project) => ({
+						...project.data(),
+						docId: project.id,
+					}));
 
-				if (JSON.stringify(allProjects) !== JSON.stringify(projects)) {
-					setProjects(allProjects);
-				}
-			});
-	}, [projects]);
+					// console.log(allProjects)
+					if (JSON.stringify(allProjects) !== JSON.stringify(projects)) {
+						setProjects(allProjects);
+					}
+				});
+		}
+	}, [projects, user]);
 	return { projects, setProjects };
 };
 
 export const useUser = (loggedInUser) => {
-	loggedInUser = loggedInUser ? loggedInUser : JSON.parse(localStorage.getItem('todoistUser'))
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState(null);
 	useEffect(() => {
+		if (loggedInUser) {
+			localStorage.setItem('todoistUser', JSON.stringify(loggedInUser));
+		}
+		loggedInUser = loggedInUser ? loggedInUser : JSON.parse(localStorage.getItem('todoistUser'));
 		setUser(loggedInUser);
-	}, []);
-	return { user, setUser };
-};
-
-export const useLogout = () => {
-	const [user, setUser] = useState({});
-	useEffect(() => {
-		setUser(localStorage.removeItem('todoistUser'));
-	}, []);
+	}, [loggedInUser]);
 	return { user, setUser };
 };

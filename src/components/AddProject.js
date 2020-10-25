@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { firebase } from '../firebase';
 import { generatePushId } from '../helpers';
-import { useProjectsValue } from '../context';
+import { useProjectsValue, useUserValue } from '../context';
 
 export const AddProject = ({ shouldShow = false }) => {
 	const [show, setShow] = useState(shouldShow);
 	const [projectName, setProjectName] = useState('');
 	const projectId = generatePushId();
-	const { setProjects } = useProjectsValue();
+	const { projects, setProjects } = useProjectsValue();
+	const {user} = useUserValue()
 
 	const addProject = () => {
 		projectName &&
@@ -17,10 +18,11 @@ export const AddProject = ({ shouldShow = false }) => {
 				.add({
 					projectId,
 					name: projectName,
-					userId: '2vDTjqWsPQ2yj3sza5ju',
+					userId:user.uid
+					// userId: '2vDTjqWsPQ2yj3sza5ju',
 				})
 				.then(() => {
-					setProjects([]);
+					setProjects([...projects]);
 					setProjectName('');
 					setShow(false);
 				});
@@ -33,13 +35,13 @@ export const AddProject = ({ shouldShow = false }) => {
 					<button className='add-project__submit' type='button' onClick={() => addProject()} data-testid='add-project-submit'>
 						Add Project
 					</button>
-					<span data-testid='hide-project-overlay' className='add-project__cancel' onClick={() => setShow(false)}>
+					<span data-testid='hide-project-overlay' className='add-project__cancel' role="button" tabIndex={0} onKeyDown={()=> setShow(false)} onClick={() => setShow(false)}>
 						Cancel
 					</span>
 				</div>
 			)}
 			<span className='add-project__plus'>+</span>
-			<span data-testid='add-project-action' className='add-project__text' onClick={() => setShow(!show)}>
+			<span data-testid='add-project-action' className='add-project__text' role="button" tabIndex={0} onKeyDown={() => setShow(!show)} onClick={() => setShow(!show)}>
 				Add Project
 			</span>
 		</div>

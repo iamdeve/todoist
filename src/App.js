@@ -1,43 +1,28 @@
-import React, { useEffect,useState } from 'react';
-import { Header } from './components/layout/Header';
-import { Content } from './components/layout/Content';
-import { ProjectsProvider, SelectedProjectProvider, UserProvider } from './context';
-import { useUser } from './hooks';
-
+import React, { useEffect, useState } from 'react';
+import { useUserValue } from './context';
+import { Main } from './components/Main';
 import { Switch, Route } from 'react-router-dom';
-import { Login } from './components/Login'
-export const App = ({ darkModeDefault = false }) => {
-	const [darkMode, setDarkMode] = useState(darkModeDefault);
-	const { user } = useUser();
+import { Login } from './components/Login';
+export const App = () => {
+	const { user } = useUserValue();
+	const [show, setShow] = useState(false);
 	useEffect(() => {
-		console.log(user)
-	}, [user])
+		if (user) {
+			setShow(true);
+		}else{
+			setShow(false)
+		}
+	}, [user]);
 	return (
-		<UserProvider>
-			<SelectedProjectProvider>
-				<ProjectsProvider>
-					<main data-testid='application' className={darkMode ? 'darkmode' : ''}>
-						<Switch>
-							<Route
-								exact
-								to='/'
-								render={() => {
-									if (user) {
-										return (
-											<>
-												<Header darkMode={darkMode} setDarkMode={setDarkMode} />
-												<Content />
-											</>
-										);
-									} else {
-										return <Login />;
-									}
-								}}
-							/>
-						</Switch>
-					</main>
-				</ProjectsProvider>
-			</SelectedProjectProvider>
-		</UserProvider>
+		<Switch>
+			<Route
+				exact={true}
+				path='/'
+				render={(props) => {
+					if (show) return <Main />;
+					else return <Login />;
+				}}
+			/>
+		</Switch>
 	);
 };

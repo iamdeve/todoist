@@ -12,6 +12,8 @@ import { ProjectOverlay } from './ProjectOverlay';
 
 import { TaskDate } from './TaskDate';
 
+import { useUserValue, useProjectsValue } from '../context';
+
 export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQuickAddTask, setShowQuickAddTask }) => {
 	const [task, setTask] = useState('');
 	const [taskDate, setTaskDate] = useState('');
@@ -19,6 +21,8 @@ export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQu
 	const [showMain, setShowMain] = useState(showShouldMain);
 	const [showProjectOverlay, setShowProjectOverlay] = useState(false);
 	const [showTaskDate, setShowTaskDate] = useState(false);
+	const { user } = useUserValue();
+	const { projects } = useProjectsValue();
 
 	const { selectedProject } = useSelectedProjectValue();
 
@@ -43,7 +47,8 @@ export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQu
 					projectId,
 					task,
 					date: collatedDate || taskDate,
-					userId: '2vDTjqWsPQ2yj3sza5ju',
+					userId: user.uid,
+					// userId: '2vDTjqWsPQ2yj3sza5ju',
 				})
 				.then(() => {
 					setTask('');
@@ -81,15 +86,14 @@ export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQu
 							</div>
 						</>
 					)}
-					
+
+					{!project && <span className='add-task__selected'>{selectedProject === 'INBOX' ? 'Inbox' : selectedProject === 'TODAY' ? 'Today' : selectedProject === 'NEXT_7' ? 'Next 7 Days' : projects.filter((p) => p.projectId === selectedProject)[0].name}</span>}
+					{project && <span className='add-task__selected'>{projects.filter((p) => p.projectId === project)[0]?.name}</span>}
+					{taskDate && <span className='add-task__selected'>{taskDate}</span>}
 					<ProjectOverlay setProject={setProject} showProjectOverlay={showProjectOverlay} setShowProjectOverlay={setShowProjectOverlay} />
-					<TaskDate 
-					setTaskDate={setTaskDate}
-					showTaskDate={showTaskDate}
-					setShowTaskDate={setShowTaskDate}
-					/>
+					<TaskDate setTaskDate={setTaskDate} showTaskDate={showTaskDate} setShowTaskDate={setShowTaskDate} />
 					<input className='add-task__content' data-testid='add-task-content' type='text' value={task} onChange={(e) => setTask(e.target.value)} />
-					<button type='button' className='add-task__submit' data-testid='add-task' onClick={() => showQuickAddTask ?addTask() && setShowQuickAddTask(false)  : addTask()}>
+					<button type='button' className='add-task__submit' data-testid='add-task' onClick={() => (showQuickAddTask ? addTask() && setShowQuickAddTask(false) : addTask())}>
 						Add Task
 					</button>
 					{!showQuickAddTask && (

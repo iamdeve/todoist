@@ -6,7 +6,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
 	const { user, setUser } = useUser();
-
+	// console.log(user)
 	return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
 

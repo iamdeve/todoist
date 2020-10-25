@@ -194,6 +194,11 @@ header {
 							width: 20px;
 							height: 20px;
 						}
+						& img.profile__img {
+							border-style: none;
+							width: 1.5rem;
+							border-radius: 50%;
+						}
 					}
 				}
 			}
@@ -223,6 +228,11 @@ header {
 		padding-right: 15px;
 		&:hover .sidebar__project-delete {
 			display: block;
+		}
+		div:nth-child(1) {
+			width: 100%;
+			display: flex;
+			align-items: center;
 		}
 	}
 
@@ -512,6 +522,16 @@ header {
 	margin-bottom: 20px;
 }
 
+.add-task__selected {
+	display: inline-block;
+	margin: 0.5rem;
+	background: #ff1f1f8f;
+	padding: 0.4rem;
+	border-radius: 1rem;
+	color: #fff;
+	font-size: 12px;
+}
+
 .task-date {
 	@include box-overlay();
 	background-color: #fff;
@@ -575,5 +595,24 @@ header {
 
 	&__cancel {
 		@include cancel();
+	}
+}
+
+.login-wrarpper {
+	display: flex;
+	flex-direction: column;
+	width: 40%;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: auto;
+	button {
+		padding: 1rem;
+		border: 0;
+		margin: 1rem 0;
+		color: #fff;
+		background: #e44332;
+		border-radius: 0.5rem;
+		cursor: pointer;
 	}
 }
