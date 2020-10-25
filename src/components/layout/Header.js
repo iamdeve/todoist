@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FaPizzaSlice, FaSignOutAlt } from 'react-icons/fa';
 import { AddTask } from '../AddTasks';
-import { useUserValue } from '../../context';
+import { useUserValue, useDarkmodeValue } from '../../context';
 import { auth } from '../../firebase';
-export const Header = ({ darkMode, setDarkMode }) => {
+export const Header = () => {
 	const [shouldShowMain, setShouldShowMain] = useState(false);
 	const [showQuickAddTask, setShowQuickAddTask] = useState(false);
 	const { user, setUser } = useUserValue();
-
+	const { darkmode, setDarkmode } = useDarkmodeValue();
 	useEffect(() => {
 		// console.log(user);
 	}, [user]);
@@ -27,6 +27,7 @@ export const Header = ({ darkMode, setDarkMode }) => {
 				<div className='settings'>
 					<ul>
 						<li
+							title='Add Task'
 							data-testid='quick-add-task-action'
 							className='settings__add'
 							onClick={() => {
@@ -35,13 +36,13 @@ export const Header = ({ darkMode, setDarkMode }) => {
 							}}>
 							+
 						</li>
-						<li data-testid='dark-mode-action' className='settings__darkmode' onClick={() => setDarkMode(!darkMode)}>
+						<li title='Dark Mode' data-testid='dark-mode-action' className='settings__darkmode' onClick={() => setDarkmode(!darkmode)}>
 							<FaPizzaSlice />
 						</li>
-						<li>
+						<li title='Profile'>
 							<img className='profile__img' src={user?.photoURL} alt='profile' />
 						</li>
-						<li data-testid='logout-action' className='settings__logout' onClick={() => logout()}>
+						<li title='Signout' data-testid='logout-action' className='settings__logout' onClick={() => logout()}>
 							<FaSignOutAlt />
 						</li>
 					</ul>

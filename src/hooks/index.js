@@ -76,3 +76,13 @@ export const useUser = (loggedInUser) => {
 	}, [loggedInUser]);
 	return { user, setUser };
 };
+
+export const useDarkmode = (mode = false) => {
+	const [darkmode, setDarkmode] = useState(mode);
+
+	useEffect(() => {
+		setDarkmode(mode);
+	}, []);
+
+	return { darkmode, setDarkmode };
+};

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Header } from './layout/Header';
 import { Content } from './layout/Content';
-export const Main = ({ darkModeDefault = false }) => {
-	const [darkMode, setDarkMode] = useState(darkModeDefault);
+import { useDarkmodeValue } from '../context';
+export const Main = () => {
+	const { darkmode, setDarkmode } = useDarkmodeValue();
 	return (
-		<main data-testid='application' className={darkMode ? 'darkmode' : ''}>
-			<Header darkMode={darkMode} setDarkMode={setDarkMode} />
+		<main data-testid='application' className={darkmode ? 'darkmode' : ''}>
+			<Header darkMode={darkmode} setDarkMode={setDarkmode} />
 			<Content />
 		</main>
 	);

@@ -4,4 +4,6 @@ import { SelectedProjectContext, SelectedProjectProvider, useSelectedProjectValu
 
 import { UserContext, UserProvider, useUserValue } from './user_context';
 
-export { SelectedProjectContext, SelectedProjectProvider, useSelectedProjectValue, ProjectsContext, ProjectsProvider, useProjectsValue, UserContext, UserProvider, useUserValue };
+import { DarkmodeContext, DarkmodeProvider, useDarkmodeValue } from './darkmode_context';
+
+export { SelectedProjectContext, SelectedProjectProvider, useSelectedProjectValue, ProjectsContext, ProjectsProvider, useProjectsValue, UserContext, UserProvider, useUserValue, DarkmodeContext, DarkmodeProvider, useDarkmodeValue };

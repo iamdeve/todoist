@@ -12,7 +12,7 @@ import { ProjectOverlay } from './ProjectOverlay';
 
 import { TaskDate } from './TaskDate';
 
-import { useUserValue, useProjectsValue } from '../context';
+import { useUserValue, useProjectsValue, useDarkmodeValue } from '../context';
 
 export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQuickAddTask, setShowQuickAddTask }) => {
 	const [task, setTask] = useState('');
@@ -25,7 +25,8 @@ export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQu
 	const { projects } = useProjectsValue();
 
 	const { selectedProject } = useSelectedProjectValue();
-
+	const { darkmode } = useDarkmodeValue();
+	console.log(darkmode);
 	const addTask = () => {
 		const projectId = project || selectedProject;
 		let collatedDate = '';
@@ -63,7 +64,7 @@ export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQu
 		<div className={showQuickAddTask ? 'add-task add-task__overlay' : 'add-task'} data-testid='add-task-comp'>
 			{showAddTaskMain && (
 				<div className='add-task__shallow' data-testid='show-main-action' onClick={() => setShowMain(!showMain)}>
-					<span className='add-task__plus'>+</span>
+					<span className={darkmode ? 'add-task__plus__dark' : 'add-task__plus'}>+</span>
 					<span className='add-task__text'>Add Task</span>
 				</div>
 			)}
@@ -87,13 +88,17 @@ export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQu
 						</>
 					)}
 
-					{!project && <span className='add-task__selected'>{selectedProject === 'INBOX' ? 'Inbox' : selectedProject === 'TODAY' ? 'Today' : selectedProject === 'NEXT_7' ? 'Next 7 Days' : projects.filter((p) => p.projectId === selectedProject)[0].name}</span>}
-					{project && <span className='add-task__selected'>{projects.filter((p) => p.projectId === project)[0]?.name}</span>}
-					{taskDate && <span className='add-task__selected'>{taskDate}</span>}
+					{!project && (
+						<span className={darkmode ? 'add-task__selected__dark' : 'add-task__selected'}>
+							{selectedProject === 'INBOX' ? 'Inbox' : selectedProject === 'TODAY' ? 'Today' : selectedProject === 'NEXT_7' ? 'Next 7 Days' : projects.filter((p) => p.projectId === selectedProject)[0].name}
+						</span>
+					)}
+					{project && <span className={darkmode ? 'add-task__selected__dark' : 'add-task__selected'}>{projects.filter((p) => p.projectId === project)[0]?.name}</span>}
+					{taskDate && <span className={darkmode ? 'add-task__selected__dark' : 'add-task__selected'}>{taskDate}</span>}
 					<ProjectOverlay setProject={setProject} showProjectOverlay={showProjectOverlay} setShowProjectOverlay={setShowProjectOverlay} />
 					<TaskDate setTaskDate={setTaskDate} showTaskDate={showTaskDate} setShowTaskDate={setShowTaskDate} />
 					<input className='add-task__content' data-testid='add-task-content' type='text' value={task} onChange={(e) => setTask(e.target.value)} />
-					<button type='button' className='add-task__submit' data-testid='add-task' onClick={() => (showQuickAddTask ? addTask() && setShowQuickAddTask(false) : addTask())}>
+					<button type='button' className={darkmode ? 'add-task__submit__dark' : 'add-task__submit'} data-testid='add-task' onClick={() => (showQuickAddTask ? addTask() && setShowQuickAddTask(false) : addTask())}>
 						Add Task
 					</button>
 					{!showQuickAddTask && (
