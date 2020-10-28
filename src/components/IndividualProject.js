@@ -30,10 +30,12 @@ export const IndividualProject = ({ project }) => {
 					<div className='project-delete-modal'>
 						<div className='project-delete-modal__inner'>
 							<p>Are you sure you want to delete project?</p>
-							<button type='button' onClick={() => deleteProject(project.docId)}>
-								Delete
-							</button>
-							<span onClick={() => setShowConfirm(!showConfirm)}>Cancel</span>
+							<div>
+								<button type='button' onClick={() => deleteProject(project.docId)}>
+									Delete
+								</button>
+								<span onClick={() => setShowConfirm(!showConfirm)}>Cancel</span>
+							</div>
 						</div>
 					</div>
 				)}

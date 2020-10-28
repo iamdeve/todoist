@@ -4,7 +4,7 @@ import { useSelectedProjectValue } from '../../context';
 import { AddProject } from '../AddProject';
 import { Projects } from '../Projects';
 export const Sidebar = () => {
-	const { setSelectedProject } = useSelectedProjectValue();
+	const { setSelectedProject } = useSelectedProjectValue() || '';
 	const [active, setActive] = useState('inbox');
 	const [showProjects, setShowProjects] = useState(true);
 	return (
@@ -12,6 +12,7 @@ export const Sidebar = () => {
 			<ul className='sidebar__generic'>
 				<li
 					data-testid='inbox'
+					aria-label='Show inbox task'
 					className={active === 'inbox' ? 'active' : ''}
 					onClick={() => {
 						setActive('inbox');
@@ -24,6 +25,7 @@ export const Sidebar = () => {
 				</li>
 				<li
 					data-testid='today'
+					aria-label='Show today tasks'
 					className={active === 'today' ? 'active' : ''}
 					onClick={() => {
 						setActive('today');
@@ -36,6 +38,7 @@ export const Sidebar = () => {
 				</li>
 				<li
 					data-testid='next_7'
+					aria-label='show next 7 days task'
 					className={active === 'next_7' ? 'active' : ''}
 					onClick={() => {
 						setActive('next_7');
@@ -47,7 +50,7 @@ export const Sidebar = () => {
 					<span>Next 7 days</span>
 				</li>
 			</ul>
-			<div className='sidebar__middle' onClick={() => setShowProjects(!showProjects)}>
+			<div className='sidebar__middle' aria-label="Show/Hide projects" onClick={() => setShowProjects(!showProjects)}>
 				<span>
 					<FaChevronDown className={!showProjects ? 'hidden-projects' : ''} />
 				</span>

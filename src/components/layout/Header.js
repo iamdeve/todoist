@@ -6,8 +6,8 @@ import { auth } from '../../firebase';
 export const Header = () => {
 	const [shouldShowMain, setShouldShowMain] = useState(false);
 	const [showQuickAddTask, setShowQuickAddTask] = useState(false);
-	const { user, setUser } = useUserValue();
-	const { darkmode, setDarkmode } = useDarkmodeValue();
+	const { user, setUser } = useUserValue() || {};
+	const { darkmode, setDarkmode } = useDarkmodeValue() || false;
 	useEffect(() => {
 		// console.log(user);
 	}, [user]);
@@ -27,6 +27,7 @@ export const Header = () => {
 				<div className='settings'>
 					<ul>
 						<li
+							aria-label='Quick add task'
 							title='Add Task'
 							data-testid='quick-add-task-action'
 							className='settings__add'
@@ -36,7 +37,7 @@ export const Header = () => {
 							}}>
 							+
 						</li>
-						<li title='Dark Mode' data-testid='dark-mode-action' className='settings__darkmode' onClick={() => setDarkmode(!darkmode)}>
+						<li aria-label='Darkmode on/off' title='Dark Mode' data-testid='dark-mode-action' className='settings__darkmode' onClick={() => setDarkmode(!darkmode)}>
 							<FaPizzaSlice />
 						</li>
 						<li title='Profile'>

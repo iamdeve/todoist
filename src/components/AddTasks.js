@@ -21,11 +21,11 @@ export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQu
 	const [showMain, setShowMain] = useState(showShouldMain);
 	const [showProjectOverlay, setShowProjectOverlay] = useState(false);
 	const [showTaskDate, setShowTaskDate] = useState(false);
-	const { user } = useUserValue();
-	const { projects } = useProjectsValue();
+	const { user } = useUserValue() || {};
+	const { projects } = useProjectsValue() || [];
 
-	const { selectedProject } = useSelectedProjectValue();
-	const { darkmode } = useDarkmodeValue();
+	const { selectedProject } = useSelectedProjectValue() || '';
+	const { darkmode } = useDarkmodeValue() || false;
 	console.log(darkmode);
 	const addTask = () => {
 		const projectId = project || selectedProject;
@@ -97,7 +97,7 @@ export const AddTask = ({ showAddTaskMain = true, showShouldMain = false, showQu
 					{taskDate && <span className={darkmode ? 'add-task__selected__dark' : 'add-task__selected'}>{taskDate}</span>}
 					<ProjectOverlay setProject={setProject} showProjectOverlay={showProjectOverlay} setShowProjectOverlay={setShowProjectOverlay} />
 					<TaskDate setTaskDate={setTaskDate} showTaskDate={showTaskDate} setShowTaskDate={setShowTaskDate} />
-					<input className='add-task__content' data-testid='add-task-content' type='text' value={task} onChange={(e) => setTask(e.target.value)} />
+					<input className='add-task__content' aria-label='Enter task' data-testid='add-task-content' type='text' value={task} onChange={(e) => setTask(e.target.value)} />
 					<button type='button' className={darkmode ? 'add-task__submit__dark' : 'add-task__submit'} data-testid='add-task' onClick={() => (showQuickAddTask ? addTask() && setShowQuickAddTask(false) : addTask())}>
 						Add Task
 					</button>

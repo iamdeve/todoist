@@ -7,8 +7,8 @@ import { useTasks } from '../hooks';
 import { useSelectedProjectValue, useProjectsValue } from '../context';
 
 export const Tasks = () => {
-	const { selectedProject } = useSelectedProjectValue();
-	const { projects } = useProjectsValue();
+	const { selectedProject } = useSelectedProjectValue() || '';
+	const { projects } = useProjectsValue() || [];
 	const { tasks } = useTasks(selectedProject);
 	let projectName = '';
 
@@ -30,7 +30,7 @@ export const Tasks = () => {
 			<ul className='tasks__list'>
 				{tasks.map((task) => (
 					<li key={`${task.id}`}>
-						<Checkbox id={task.id} />
+						<Checkbox id={task.id} taskDesc={task.task} />
 						<span>{task.task}</span>
 					</li>
 				))}

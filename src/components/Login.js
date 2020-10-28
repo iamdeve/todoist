@@ -4,7 +4,7 @@ import { useUserValue } from '../context';
 import { useHistory } from 'react-router-dom';
 export const Login = () => {
 	const history = useHistory();
-	const { user, setUser } = useUserValue();
+	const { user, setUser } = useUserValue() || {};
 	useEffect(() => {
 		if (user) {
 			// history.push('/');
